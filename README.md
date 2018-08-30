@@ -1,6 +1,6 @@
 # Youtube Playlist Downloader
 
-Youtube playlist download
+Downlad Youtube playlist videos as video or audio with command line tool.
 
 ### Prerequisites
 
