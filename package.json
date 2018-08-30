@@ -1,0 +1,22 @@
+{
+  "name": "ytdl-playlist",
+  "version": "1.0.0",
+  "description": "youtube playlist downloader",
+  "main": "index.js",
+  "scripts": {
+  },
+  "author": "m-cakir",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.1",
+    "clui": "^0.3.6",
+    "commander": "^2.17.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "got": "^9.1.0",
+    "joi": "^13.6.0",
+    "ytdl-core": "^0.24.0"
+  },
+  "app": {
+    "api_key": "YOUTUBE_DATA_API_KEY"
+  }
+}
