@@ -9,13 +9,6 @@ node >= 8.9.0
 ffmpeg (for audio)
 ```
 
-### Install
-
-clone this repo, then
-```
-npm install
-```
-
 ## Built With
 
 * [Node](https://nodejs.org) - Javascript run-time environment
@@ -28,5 +21,28 @@ npm install
 * [Commander](https://github.com/tj/commander.js) Node.js command-line interfaces made easy
 * [Clui](https://github.com/nathanpeck/clui) Command-line UI toolkit for Node.js
 
+### Install
+
+clone this repo, then
+```
+npm install
+```
+
 ## Usage
-// Todo 
+
+`node index [options]`
+
+__Options__
+
+       -v, --version                  show version number
+       -h, --help                     show help
+       -t, --type                     the output format, can be video or audio, default: video
+       -o, --outputdir                the output folder name, default: downloads
+       -i, --id                       playlist id
+       -n, --name                     playlist name (to use folder name)
+       -r, --range                    playlist items range, should be like <a>..<b>
+       -j, --json                     options from .json file (overrides other options)
+
+__Examples__
+
+// Todo
