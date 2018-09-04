@@ -9,11 +9,11 @@ program
 
 program
     .usage('[options]')
-    .option('-i, --id <id>', 'playlist id')
-    .option('-n, --name <name>', 'playlist name')
-    .option('-t, --type <type>', 'output type: video or audio', /^(video|audio)$/i, 'video')
-    .option('-o, --outputdir <outputdir>', 'output directory name', 'downloads')
-    .option('-r, --range <a>..<b>', 'playlist items range', function (val) { return val.split('..').map(Number); })
+    .option('-u, --url <url>', 'youtube playlist url (overrides "id" option)')
+    .option('-i, --id <id>', 'youtube playlist id')
+    .option('-f, --format <format>', 'output format (video || audio)', /^(video|audio)$/i, 'video')
+    .option('-o, --output <output>', 'output folder name (default: playlist name)')
+    .option('-r, --range <a>-<b>', 'items range, must be like a-b', function (val) { return val.split('-').map(Number); })
     .option('-j, --json <json>', 'options from .json file (overrides other options)');
 
 program.parse(process.argv);
@@ -24,9 +24,9 @@ const playlist = Playlist.parseFromCmd(program);
 
     try {
 
-        if (!playlist.name) {
+        if (!playlist.output) {
 
-            playlist.name = await getPlaylistName(playlist.id);
+            playlist.output = await getPlaylistName(playlist.id);
 
         }
 
@@ -34,24 +34,30 @@ const playlist = Playlist.parseFromCmd(program);
 
         playlist.items = await getPlaylistItems(playlist.id);
 
-        console.log("--- playlist info ---");
-        console.log("---");
-        console.log("--- id: " + playlist.id);
-        console.log("--- name: " + playlist.name);
-        console.log("--- type: " + playlist.type);
-        if (playlist.range) console.log("--- range: " + playlist.range[0] + "-" + playlist.range[1]);
-        console.log("--- output dir: " + playlist.outputdir);
-        console.log("--- total items: " + playlist.items.length);
-        console.log("---");
-        console.log("--- task started...");
-        console.log("---");
+        playlist.print();
+
+        console.log("### task started");
+        console.log("-".repeat(3));
 
         playlist.makeDir();
 
-        download(playlist);
+        console.log("-".repeat(3));
+
+        try {
+
+            download(playlist)
+                .then(function (error) {
+                    console.log("### task completed successfully");
+                });
+
+        } catch (e) {
+            console.log(e);
+            console.log("-".repeat(3));
+            console.log("### task incompleted");
+        }
 
     } catch (e) {
-        console.log("Something has gone wrong, e: " + e);
+        console.log("### Something has gone wrong, e: " + e);
     }
 
 })();

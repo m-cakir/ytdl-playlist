@@ -1,7 +1,6 @@
 {
-    "id": "PLlPn9MKk0K5HuCjbm3i0_JCnSuamvkugW",
-    "name": "Mixed List",
-    "range": [4,5],
-    "type": "audio",
-    "outputdir": "downloads"
+    "url": "https://www.youtube.com/watch?v=9OIjPKLuu5g&list=PLlPn9MKk0K5HuCjbm3i0_JCnSuamvkugW&index=10&t=0s",
+    "range": [5],
+    "format": "audio",
+    "output": "myPlaylist"
 }

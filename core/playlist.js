@@ -3,20 +3,22 @@ const path = require('path');
 const Joi = require('joi');
 
 const PLAYLIST_SCHEMA = Joi.object().keys({
-    id: Joi.string().required(),
-    name: Joi.string(),
+    id: Joi.string().when('url', {
+        is: Joi.string().regex(/(list=)/i),
+        otherwise: Joi.required()
+    }),
+    url: Joi.string().uri(),
     range: Joi.array().min(1).max(2).items(Joi.number(), Joi.number()),
-    type: Joi.string(),
-    outputdir: Joi.string()
-});
+    format: Joi.string().regex(/^(video|audio)$/i),
+    output: Joi.string()
+}).without('id', 'url').or('id', 'url');
 
 class Playlist {
 
-    constructor(type, id, name, range, outputdir) {
-        this.type = type;
+    constructor(format, id, range, output) {
+        this.format = format;
         this.id = id;
-        this.name = name;
-        this.outputdir = outputdir;
+        this.output = output;
         this.range = range;
     }
 
@@ -27,48 +29,52 @@ class Playlist {
     set range(value) {
         if (value) {
             if (!(value instanceof Array))
-                throw new Error("Please enter valid a range object array");
+                throw new Error("Please enter valid range object array");
         }
         this._range = value;
     }
 
-    get items(){
+    get items() {
         return this._items;
     }
 
-    set items(list){
+    set items(list) {
         if (list) {
             if (!(list instanceof Array))
-                throw new Error("Please enter valid a items object array");
+                throw new Error("Please enter valid items object array");
         }
         this._items = list;
     }
 
-    static parseFromCmd({ type, id, name, range, json: jsonFilePath, outputdir }) { // program object
+    static parseFromCmd({ url, format, id, range, json: jsonFilePath, output }) { // program object
 
-        var data = {};
-
-        data.type = type;
-        data.outputdir = outputdir;
+        var data = {
+            format: format,
+            output: output
+        };
 
         if (id) data.id = id;
-        if (typeof name === 'string' && name) data.name = name;
         if (range) data.range = range;
+        if (url) data.url = url;
 
         if (jsonFilePath) {
             data = Object.assign(data, require(jsonFilePath));
         }
 
-        return Playlist.parseFromObject(data);
+        if (data.url) data.id = data.url.split('list=')[1].split('&')[0];
+
+        let { _url, ...parameters } = data;
+
+        return Playlist.parseFromObject(parameters);
     }
 
-    static parseFromObject({ type, id, name, range, outputdir }) {
-        return new Playlist(type, id, name, range, outputdir);
+    static parseFromObject({ format, id, range, output }) {
+        return new Playlist(format, id, range, output);
     }
 
     getFolderName() {
-        if (!this.name) throw new Error("Invalid playlist name");
-        return this._arrangePathName(this.name);
+        if (!this.output) throw new Error("Invalid playlist or output folder name");
+        return this._arrangePathName(this.output);
     }
 
     makeDir() {
@@ -80,11 +86,11 @@ class Playlist {
     }
 
     getDownloadsFolderPath() {
-        return path.resolve(__dirname, '..' + path.sep + this.outputdir);
+        return path.resolve(__dirname, '../downloads');
     }
 
     getDirPath() {
-        return path.resolve(__dirname, '..' + path.sep + this.outputdir + path.sep + this.getFolderName());
+        return path.resolve(__dirname, '../downloads/' + this.getFolderName());
     }
 
     validate() {
@@ -92,28 +98,37 @@ class Playlist {
         const result = Joi.validate(this.toJSON(), PLAYLIST_SCHEMA);
 
         if (result.error !== null) {
-            throw new Error("Please enter a valid playlist info with id");
+            throw new Error("Please enter a valid playlist info with ID or URL");
         }
     }
 
     toJSON() {
         return {
             id: this.id,
-            type: this.type,
-            name: this.name,
+            format: this.format,
             range: this.range,
-            outputdir: this.outputdir
+            output: this.output
         };
     }
 
-    _arrangePathName(name) {
-        return name.replace(/[\\\/\:\*\?\"\<\>\|\']/g, " ").replace(/\s\s+/g, ' ').trim();
+    _arrangePathName(str) {
+        return str.replace(/[\\\/\:\*\?\"\<\>\|\']/g, " ").replace(/\s\s+/g, ' ').trim();
     }
 
-    isVideo(){
-        return this.type === 'video';
+    isVideo() {
+        return this.format === 'video';
     }
 
+    print() {
+        console.log("-".repeat(8) + " playlist info " + "-".repeat(8));
+        console.log(" > id     \t: " + this.id);
+        console.log(" > format \t: " + this.format);
+        if (this.range)
+            console.log(" > range \t: " + this.range[0] + "-" + (this.range[1] || this.range[0]));
+        console.log(" > output dir \t: downloads/" + this.getFolderName());
+        console.log(" > total items \t: " + this.items.length);
+        console.log("-".repeat(31));
+    }
 }
 
 module.exports.Playlist = Playlist;

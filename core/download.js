@@ -83,41 +83,39 @@ function downloadAudio(playlistItem, outputFilePath, callback) {
 
 function download(playlist) {
 
-    Async.eachLimit(playlist.items, 1, function (item, callback) {
+    return new Promise(function (resolve, reject) {
 
-        const position = item.position + 1;
+        Async.eachLimit(playlist.items, 1, function (item, callback) {
 
-        if (playlist.range)
-            if (position < playlist.range[0] || (playlist.range[1] && position > playlist.range[1])) {
+            const position = item.position + 1;
+
+            if (playlist.range)
+                if (position < playlist.range[0] || (playlist.range[1] && position > playlist.range[1])) {
+                    callback();
+                    return;
+                }
+
+            const extension = playlist.isVideo() ? 'mp4' : 'mp3';
+            const pathName = playlist._arrangePathName(item.title);
+            const output = `${playlist.getDirPath()}/${pathName}.${extension}`.trim();
+            console.log("--- " + position + " _ " + item.title);
+
+            if (item.title.toLowerCase() == "private video") { // should be more clever than this check :(
+                console.log("--- This content is PRIVATE");
                 callback();
                 return;
             }
 
-        const extension = playlist.isVideo() ? 'mp4' : 'mp3';
-        const pathName = playlist._arrangePathName(item.title);
-        const output = `${playlist.getDirPath()}/${pathName}.${extension}`.trim();
-        console.log("--- " + position + " _ " + item.title);
+            if (playlist.isVideo())
+                downloadVideo(item, output, callback);
+            else
+                downloadAudio(item, output, callback);
 
-        if (item.title.toLowerCase() == "private video") { // should be more clever than this check :(
-            console.log("--- This content is PRIVATE");
-            callback();
-            return;
-        }
+        }, function(error){
+            if(error) reject(error);
+            else resolve();
+        });
 
-        if (playlist.isVideo())
-            downloadVideo(item, output, callback);
-        else
-            downloadAudio(item, output, callback);
-
-    }, function (error) {
-        if (error) {
-            console.log(error);
-            console.log("---");
-            console.log("--- task incompleted...");
-        } else {
-            console.log("---");
-            console.log("--- task completed successfully...");
-        }
     });
 
 }

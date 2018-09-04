@@ -34,13 +34,13 @@ npm install
 
 __Options__
 
-       -v, --version                  show version number
-       -h, --help                     show help
-       -t, --type                     the output format, can be video or audio, default: video
-       -o, --outputdir                the output folder name, default: downloads
-       -i, --id                       playlist id
-       -n, --name                     playlist name (to use folder name)
-       -r, --range                    playlist items range, should be like <a>..<b>
+       -v, --version                  version number
+       -h, --help                     help
+       -f, --format                   output format (video || audio), default: video
+       -o, --output                   output folder name, default: playlist name
+       -u, --url                      youtube playlist url
+       -i, --id                       youtube playlist id
+       -r, --range                    playlist items range, must be like a-b
        -j, --json                     options from .json file (overrides other options)
 
 __Examples__
