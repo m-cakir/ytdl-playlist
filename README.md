@@ -6,6 +6,7 @@ Downlad Youtube playlist videos as video or audio with command line tool.
 
 ```
 node >= 8.9.0
+
 ffmpeg (for audio)
 ```
 
@@ -27,6 +28,9 @@ clone this repo, then
 ```
 npm install
 ```
+
+### Youtube Data API Key
+Take your api key from [here](https://developers.google.com/youtube/v3/docs/) and set **app.api_key** property in the [package.json](https://github.com/m-cakir/ytdl-playlist/blob/master/package.json) file.
 
 ## Usage
 
