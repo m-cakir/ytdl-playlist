@@ -43,6 +43,48 @@ __Options__
        -r, --range                    playlist items range, must be like a-b
        -j, --json                     options from .json file (overrides other options)
 
-__Examples__
+__Options json file format__
 
-// Todo
+"id" or "url" must be valid, you can't set both. Other options have default values (see --help output).
+
+```
+{
+    "id": "PLlPn9MKk0K5HuCjbm3i0_JCnSuamvkugW",
+//  "url": "https://www.youtube.com/watch?v=9OIjPKLuu5g&list=PLlPn9MKk0K5HuCjbm3i0_JCnSuamvkugW&index=10&t=0s",
+    "range": [5, 10],
+    "format": "audio",
+    "output": "My Playlist XYZ"
+}
+```
+
+## Examples
+
+__Basic__
+```
+node index -i "PLlPn9MKk0K5HuCjbm3i0_JCnSuamvkugW"
+```
+
+__Via playlist url__
+```
+node index -u "https://www.youtube.com/watch?v=9OIjPKLuu5g&list=PLlPn9MKk0K5HuCjbm3i0_JCnSuamvkugW&index=10&t=0s"
+```
+
+__Save as audio (bitrate: 192kbps)__
+```
+node index -i "PLlPn9MKk0K5HuCjbm3i0_JCnSuamvkugW" -f "audio"
+```
+
+__Output folder name__
+```
+node index -i "PLlPn9MKk0K5HuCjbm3i0_JCnSuamvkugW" -o "My Playlist XYZ"
+```
+
+__Save items by range__
+```
+node index -i "PLlPn9MKk0K5HuCjbm3i0_JCnSuamvkugW" -r 5-10
+```
+
+__Options from file__
+```
+node index -j "../playlist.json"
+```
