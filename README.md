@@ -93,7 +93,7 @@ __Options from file__
 node index -j "../playlist.json"
 ```
 
-## Screenshot
+## Screenshots
 
 ![alt](screenshot/example.png)
 
