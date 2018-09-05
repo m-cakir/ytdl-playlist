@@ -38,20 +38,22 @@ const playlist = Playlist.parseFromCmd(program);
 
         console.log("### task started");
         console.log("-".repeat(3));
+        console.log("-".repeat(3));
 
         playlist.makeDir();
-
-        console.log("-".repeat(3));
 
         try {
 
             download(playlist)
                 .then(function (error) {
+                    console.log("-".repeat(3));
+                    console.log("-".repeat(3));
                     console.log("### task completed successfully");
                 });
 
         } catch (e) {
             console.log(e);
+            console.log("-".repeat(3));
             console.log("-".repeat(3));
             console.log("### task incompleted");
         }
