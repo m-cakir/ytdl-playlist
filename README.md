@@ -92,3 +92,9 @@ __Options from file__
 ```
 node index -j "../playlist.json"
 ```
+
+## Screenshot
+
+![alt](screenshot/example.png)
+
+![alt](screenshot/output.png)
