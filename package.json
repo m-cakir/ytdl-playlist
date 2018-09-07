@@ -4,6 +4,7 @@
   "description": "youtube playlist downloader",
   "main": "index.js",
   "scripts": {
+    "test": "lab --assert code"
   },
   "author": "m-cakir",
   "license": "ISC",
@@ -18,5 +19,9 @@
   },
   "app": {
     "api_key": "YOUTUBE_DATA_API_KEY"
+  },
+  "devDependencies": {
+    "lab": "^16.0.0",
+    "code": "^5.2.0"
   }
 }

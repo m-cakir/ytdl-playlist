@@ -7,7 +7,7 @@ const PLAYLIST_ITEMS_MAX_RESULTS = 50;
 // https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PLlPn9MKk0K5HuCjbm3i0_JCnSuamvkugW&key=YOUR_API_KEY
 
 
-async function getPlaylistName(playlistId) {
+async function getPlaylistName(playlistId, apiKey = Pack.app.api_key) {
 
     try {
 
@@ -15,7 +15,7 @@ async function getPlaylistName(playlistId) {
             json: true,
             query: {
                 id: playlistId,
-                key: Pack.app.api_key,
+                key: apiKey,
                 part: 'snippet'
             }
         });
@@ -23,13 +23,12 @@ async function getPlaylistName(playlistId) {
         return response.body.items[0].snippet.title;
 
     } catch (e) {
-        console.log('The API returned an error: %s [%d]', e.statusMessage, e.statusCode);
         throw e;
     }
 
 }
 
-async function retrievePlaylistItems(playlistId, pageToken) {
+async function retrievePlaylistItems(playlistId, pageToken, apiKey = Pack.app.api_key) {
 
     try {
 
@@ -37,7 +36,7 @@ async function retrievePlaylistItems(playlistId, pageToken) {
             json: true,
             query: {
                 playlistId: playlistId,
-                key: Pack.app.api_key,
+                key: apiKey,
                 part: 'snippet',
                 maxResults: PLAYLIST_ITEMS_MAX_RESULTS,
                 pageToken: pageToken || undefined
@@ -47,7 +46,6 @@ async function retrievePlaylistItems(playlistId, pageToken) {
         return response.body;
 
     } catch (e) {
-        console.log('The API returned an error: %s [%d]', e.statusMessage, e.statusCode);
         throw e;
     }
 
@@ -84,7 +82,6 @@ async function getPlaylistItems(playlistId) {
         });;
 
     } catch (e) {
-        console.log('The API returned an error: %s [%d]', e.statusMessage, e.statusCode);
         throw e;
     }
 

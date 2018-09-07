@@ -22,6 +22,10 @@ class Playlist {
         this.range = range;
     }
 
+    static get schema() {
+        return PLAYLIST_SCHEMA;
+    }
+
     get range() {
         return this._range;
     }
