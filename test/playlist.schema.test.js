@@ -2,7 +2,8 @@ const { expect } = require('code');
 const { it, describe } = exports.lab = require('lab').script();
 
 const Joi = require('joi');
-const { schema } = require('../core/playlist').schema;
+const { Playlist } = require('../core/playlist');
+const schema = Playlist.schema;
 
 describe('Playlist Schema', () => {
 

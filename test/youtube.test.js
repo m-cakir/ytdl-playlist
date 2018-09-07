@@ -20,10 +20,9 @@ describe('Youtube Api', () => {
             expect(e.statusCode).to.equal(400);
 
         }
-
     });
 
-    it('get playlist name', async () => {
+    it('should retrieve playlist name', async () => {
 
         const name = await getPlaylistName(playlistId);
 
@@ -31,7 +30,7 @@ describe('Youtube Api', () => {
         expect(name).to.equal(playlistName);
     });
 
-    it('get playlist items', async () => {
+    it('should retrieve playlist items', async () => {
 
         const items = await getPlaylistItems(playlistId);
 
