@@ -1,2 +1,2 @@
-node index -j "../playlist.json"
+node index -j "../json/playlist.json"
 pause

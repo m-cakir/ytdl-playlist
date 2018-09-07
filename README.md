@@ -90,7 +90,7 @@ node index -i "PLlPn9MKk0K5HuCjbm3i0_JCnSuamvkugW" -r 5-10
 
 __Options from file__
 ```
-node index -j "../playlist.json"
+node index -j "../json/playlist.json"
 ```
 
 ## Screenshots
