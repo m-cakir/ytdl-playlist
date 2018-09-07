@@ -42,7 +42,7 @@ __Options__
        -h, --help                     help
        -f, --format                   output format (video || audio), default: video
        -o, --output                   output folder name, default: playlist name
-       -u, --url                      youtube playlist url
+       -u, --url                      youtube playlist url (overrides "id" option)
        -i, --id                       youtube playlist id
        -r, --range                    playlist items range, must be like a-b
        -j, --json                     options from .json file (overrides other options)
